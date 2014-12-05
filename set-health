@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -eo pipefail
+
+containerName="$1"
+healthy="$2"
+
+docker run --rm \
+           --link=$containerName:app \
+           tutum/curl \
+           bash \
+           -c \
+           "curl -X PUT http://\$APP_PORT_80_TCP_ADDR:\$APP_PORT_80_TCP_PORT/health -d '{\"healthy\": $healthy}' -H \"Content-Type: application/json\""

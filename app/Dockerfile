@@ -4,4 +4,6 @@ MAINTAINER Ben Ripkens <bripkens.dev@gmail.com>
 # Installation of dependencies and start of application
 # is handled by the onbuild image
 
-EXPOSE 3000
+ENV PORT 80
+
+EXPOSE 80

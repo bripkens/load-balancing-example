@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -eo pipefail
+
+echo "### Stopping and removing all containers"
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+
+echo "### Build all containers"
+docker build -t lb-app app/
+docker build -t lb-nginx nginx/
+
+echo "### Starting apps"
+docker run --detach \
+           --name lb-app1 \
+           lb-app
+docker run --detach \
+           --name lb-app2 \
+           lb-app
+
+echo "### Starting load balancer"
+docker run --detach \
+           --link=lb-app1:app1 \
+           --link=lb-app2:app2 \
+           --publish=8081:81 \
+           --name lb-haproxy \
+           --volume=$(pwd)/haproxy:/haproxy-override \
+           dockerfile/haproxy
+
+echo "### Starting reverse proxy"
+docker run --detach \
+           --link=lb-haproxy:app \
+           --publish 8080:80 \
+           --name lb-nginx \
+           lb-nginx
