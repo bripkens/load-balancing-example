@@ -28,6 +28,9 @@ the web server health by using the `set-health` script
 ./set-health lb-app1 false
 ```
 
+Application health can be inspected via `http://$DOCKER_IP:8001`. The
+load balanced application itself is available via `http://$DOCKER_IP:8000`.
+
 ## Limitations
 
  - only one Nginx instance
