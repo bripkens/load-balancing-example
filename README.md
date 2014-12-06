@@ -29,7 +29,9 @@ the web server health by using the `set-health` script
 ```
 
 Application health can be inspected via `http://$DOCKER_IP:8001`. The
-load balanced application itself is available via `http://$DOCKER_IP:8000`.
+load balanced application itself is available via
+`http://$DOCKER_IP:8000`. There is also an SSI test located at
+`http://$DOCKER_IP:8000/userspace.html`.
 
 ## Limitations
 
